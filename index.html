@@ -1,9 +1,278 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="refresh" content="0; url=http://34.201.48.71:5000/" />
-</head>
-<body>
-<p><a href="http://34.201.48.71:5000/">Redirect</a></p>
-</body>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Author">
+    <title>A2Avecs Demo</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-114699698-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-114699698-1');
+    </script>
+  </head>
+
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-white">
+      <div class="container">
+        <a class="navbar-brand" href="#">A2Avecs</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Demo</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#row_data">Data</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" onClick="alert('Coming Soon')" href="#">Code</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" onClick="alert('Coming Soon')" href="#">Paper</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    &nbsp;
+
+    <!-- Page Content -->
+    <div class="container">
+
+    <div class="form-row align-items-center">
+        <div class="col-auto">
+            <h3>Affordance Meshing for</h3>
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" id="AffordanceMeshingW1" placeholder="doctor">
+        </div>
+        <div class="col-2">
+            <select id="AffordanceMeshingR1" class="form-control">
+                <option value="ARG0" selected>As Agent (ARG0)</option>
+                <option value="ARG1">As Object (ARG1)</option>
+                <option value="ARGM-LOC">As Location (ARGM-LOC)</option>
+                <option value="ARGM-TMP">As Time (ARGM-TMP)</option>
+            </select>
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" id="AffordanceMeshingW2" placeholder="patient">
+        </div>
+        <div class="col-2">
+            <select id="AffordanceMeshingR2" class="form-control">
+                <option value="ARG0">As Agent (ARG0)</option>
+                <option value="ARG1" selected>As Object (ARG1)</option>
+                <option value="ARGM-LOC">As Location (ARGM-LOC)</option>
+                <option value="ARG-TMP">As Time (ARGM-TMP)</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <button onclick="loadAffordanceMeshing()" class="btn btn-outline-primary" data-toggle="modal" data-target="#askModal">Ask</button>
+        </div>
+    </div>
+    <p>Shows possible relations between words (or concepts). Relations are directed and only some of the most consistent roles available as options.</p>
+    &nbsp;
+    
+    <div class="form-row align-items-center">
+        <div class="col-auto">
+            <h3>Difference Between</h3>
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" id="ShowDifference1" name="word" placeholder="dog">
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" id="ShowDifference2" name="word" placeholder="cat">
+        </div>
+        <div class="col-auto">
+            <button onclick="loadShowDifference()" class="btn btn-outline-primary" data-toggle="modal" data-target="#askModal">Ask</button>
+        </div>
+    </div>
+    <p>Shows which affordances are most distinct between words. Rows ordered by largest absolute difference.</p>
+    &nbsp;
+    
+    <div class="form-row align-items-center">
+        <div class="col-auto">
+            <h3>Most Similar to</h3>
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" id="MostSimilarInput" name="word" placeholder="car">
+        </div>
+        <div class="col-auto">
+            <button onclick="loadMostSimilar()" class="btn btn-outline-primary" data-toggle="modal" data-target="#askModal">Ask</button>
+        </div>
+    </div>
+    <p>Displays a list of the top 100 most similar words. Also shows results from fastText 600B on the same vocabulary.</p>
+    &nbsp;
+    
+    <div class="form-row align-items-center">
+        <div class="col-auto">
+            <h3>Check Affordances for</h3>
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" id="CheckAffordancesInput" name="word" placeholder="police">
+        </div>
+        <div class="col-auto">
+            <button onclick="loadCheckAffordances()" class="btn btn-outline-primary" data-toggle="modal" data-target="#askModal">Ask</button>
+        </div>
+    </div>
+    <p>Shows sorted affordance attribution values. These values correspond to vector features, after max normalization (for easier comparison).</p>
+    &nbsp;
+    
+    <div class="form-row align-items-center">
+        <div class="col-auto">
+            <h3>Top Words for Affordance</h3>
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" id="ShowWords" name="word" placeholder="drink|ARG1">
+        </div>
+        <div class="col-auto">
+            <button onclick="loadShowWords()" class="btn btn-outline-primary" data-toggle="modal" data-target="#askModal">Ask</button>
+        </div>
+    </div>
+    <p>Shows which words have the highest values for the affordance. Values correspond to predicate features (transpose of M), after max normalization.</p>
+    &nbsp;
+
+    <div class="form-row align-items-center">
+        <div class="col-auto">
+            <a href="https://s3.amazonaws.com/a2avecs/demo/scatter.html" target="_blank">
+                <h3>Scatter Plot Comparison</h3>
+            </a>
+        </div>
+        <div class="col">
+            <p style="margin-top: auto;margin-bottom: auto;">
+              Interactive T-SNE visualization of 10k most common words from fastText 600B and A2Avecs.
+            </p>
+        </div>
+    </div>
+    &nbsp;
+
+    <div class="form-row align-items-center">
+        <div class="col-auto">
+            <a href="#" target="_blank">
+                <h3>Data</h3>
+            </a>
+        </div>
+        <div class="col">
+            <p style="margin-top: auto;margin-bottom: auto;">
+                <a href="https://s3.amazonaws.com/a2avecs/data/a2avecs.fasttext.wiki10.npz" target="_blank">
+                A2Avecs interpolated with fastText Wikipedia
+                </a>
+                (97.6 MB)
+                <a href="https://s3.amazonaws.com/a2avecs/data/a2avecs.fasttext.600B.npz" target="_blank">
+                A2Avecs interpolated with fastText 600B
+                </a>
+                (102.8 MB)
+                Evaluation script <a onClick="alert('Coming Soon')"  href="#">here</a>.
+            </p>
+        </div>
+    </div>
+    &nbsp;
+
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <p>
+            Work under review - Please <b>do not share</b>.
+            Designed for desktop resolutions.
+        </p>
+      </div>
+    </div>
+    </div>
+
+    <!-- askModal -->
+    <div class="modal fade" id="askModal" tabindex="-1" role="dialog" aria-labelledby="askModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-title">Title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modal-body" style="width:800px">
+                    <iframe id="modal-iframe" frameborder=0 style="width:100%; height:600px" src="_blank"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    var flaskapp = "http://34.201.48.71:5000"
+
+    function loadMostSimilar(){
+        var input = $("#MostSimilarInput").val();
+        $("#modal-title").text("Most Similar to '" + input + "' (loading...)");
+        $("#modal-iframe").hide();
+        $("#modal-iframe").attr("src", flaskapp+"/most_similar?word="+input);
+        $("#modal-iframe").on('load', function(){
+            $("#modal-title").text("Most Similar to '" + input + "'");
+            $("#modal-iframe").show();
+        });        
+    }
+
+    function loadCheckAffordances(){
+        var input = $("#CheckAffordancesInput").val();
+        $("#modal-title").text("Affordances for '" + input + "' (loading...)");
+        $("#modal-iframe").hide();
+        $("#modal-iframe").attr("src", flaskapp+"/show_affordances?word="+input);
+        $("#modal-iframe").on('load', function(){
+            $("#modal-title").text("Affordances for '" + input + "'");
+            $("#modal-iframe").show();
+        });        
+    }
+
+    function loadShowWords(){
+        var input = $("#ShowWords").val();
+        $("#modal-title").text("Top Words for '" + input + "' (loading...)");
+        $("#modal-iframe").hide();
+        $("#modal-iframe").attr("src", flaskapp+"/show_words?affordance="+input);
+        $("#modal-iframe").on('load', function(){
+            $("#modal-title").text("Top Words for '" + input + "'");
+            $("#modal-iframe").show();
+        });
+    }
+
+    function loadShowDifference(){
+        var input1 = $("#ShowDifference1").val();
+        var input2 = $("#ShowDifference2").val();
+        $("#modal-title").text("Difference Between '" + input1 + " and " + input2 + "' (loading...)");
+        $("#modal-iframe").hide();
+        $("#modal-iframe").attr("src", flaskapp+"/show_difference?word1="+input1+"&word2="+input2);
+        $("#modal-iframe").on('load', function(){
+            $("#modal-title").text("Difference Between '" + input1 + "' and '" + input2 + "'");
+            $("#modal-iframe").show();
+        });
+    }
+
+    function loadAffordanceMeshing(){
+        var word1 = $("#AffordanceMeshingW1").val();
+        var word2 = $("#AffordanceMeshingW2").val();
+        var role1 = $("#AffordanceMeshingR1").val();
+        var role2 = $("#AffordanceMeshingR2").val();
+        $("#modal-title").text("Affordance Meshing for'" + word1 + " as " + role1 + " and " + word2 + "' as " + role2 + " (loading...)");
+        $("#modal-iframe").hide();
+        $("#modal-iframe").attr("src", flaskapp+"/show_meshing?word1="+word1+"&word2="+word2+"&role1="+role1+"&role2="+role2);
+        $("#modal-iframe").on('load', function(){
+            $("#modal-title").text("Affordance Meshing for'" + word1 + "' as " + role1 + " and '" + word2 + "' as " + role2);
+            $("#modal-iframe").show();
+        });
+    }
+    </script>
+
+	<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>    
+
+  </body>
+
 </html>
